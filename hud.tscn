@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://bk45sop3vudts"]
+
+[ext_resource type="Script" path="res://hud.gd" id="1_asqod"]
+[ext_resource type="FontFile" uid="uid://b72olo87vegnb" path="res://fonts/FFFFORWA.TTF" id="2_2dv2c"]
+[ext_resource type="AudioStream" uid="uid://dhtmi3njvutpe" path="res://sounds/Gold2.wav" id="3_gubim"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_asqod")
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -114.0
+offset_right = 160.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_2dv2c")
+theme_override_font_sizes/font_size = 64
+text = "Dogdgy!"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -40.0
+offset_top = 55.0
+offset_right = 40.0
+offset_bottom = 143.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_2dv2c")
+theme_override_font_sizes/font_size = 64
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartButton" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.714
+anchor_right = 0.5
+anchor_bottom = 0.714
+offset_left = -240.0
+offset_top = -31.08
+offset_right = 240.0
+offset_bottom = 27.92
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_2dv2c")
+theme_override_font_sizes/font_size = 31
+text = "Start"
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="clicked" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_gubim")
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]

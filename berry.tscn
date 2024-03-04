@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=3 uid="uid://qug63s56ptml"]
+
+[ext_resource type="Script" path="res://berry.gd" id="1_ydw50"]
+[ext_resource type="Texture2D" uid="uid://51ahd0a5rxbn" path="res://art/Coin2.png" id="2_57r3i"]
+[ext_resource type="Texture2D" uid="uid://t8d2t60vqdmk" path="res://art/light.png" id="3_kxvtu"]
+[ext_resource type="AudioStream" uid="uid://cqybbill8r1lh" path="res://sounds/Coin.wav" id="4_xmp52"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iejgh"]
+atlas = ExtResource("2_57r3i")
+region = Rect2(0, 0, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8vxl"]
+atlas = ExtResource("2_57r3i")
+region = Rect2(10, 0, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7gnl"]
+atlas = ExtResource("2_57r3i")
+region = Rect2(20, 0, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kchc6"]
+atlas = ExtResource("2_57r3i")
+region = Rect2(30, 0, 10, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bijgb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iejgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8vxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7gnl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kchc6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4sx62"]
+radius = 15.0
+
+[sub_resource type="Gradient" id="Gradient_lo75y"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 0.636, 0.09, 1)
+
+[node name="berry" type="Area2D" groups=["Powers"]]
+script = ExtResource("1_ydw50")
+
+[node name="Berry" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2.95, 2.95)
+sprite_frames = SubResource("SpriteFrames_bijgb")
+frame_progress = 0.0267409
+metadata/Color = Color(0, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4sx62")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 20
+lifetime = 0.9
+preprocess = 18.29
+speed_scale = 1.17
+randomness = 0.05
+emission_shape = 1
+emission_sphere_radius = 18.59
+gravity = Vector2(0, -10)
+linear_accel_min = 2.44
+linear_accel_max = 8.54
+radial_accel_min = 9.76
+radial_accel_max = 25.62
+scale_amount_min = 0.0
+scale_amount_max = 5.0
+color_initial_ramp = SubResource("Gradient_lo75y")
+hue_variation_min = 0.55
+hue_variation_max = 0.84
+anim_speed_max = 2.34
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+scale = Vector2(7.03642, 7.56146)
+color = Color(1, 0.815686, 0.670588, 1)
+texture = ExtResource("3_kxvtu")
+texture_scale = 0.02
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+
+[node name="Coin" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_xmp52")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_shape_entered" from="." to="." method="_on_area_shape_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

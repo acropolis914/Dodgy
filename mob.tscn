@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://0v5sbvo8nvgt"]
+
+[ext_resource type="Texture2D" uid="uid://c57rwhv03e5bv" path="res://art/enemyFlyingAlt_1.png" id="1_q3ko3"]
+[ext_resource type="Script" path="res://mob.gd" id="1_vx3ol"]
+[ext_resource type="Texture2D" uid="uid://d3i8a4wq34he6" path="res://art/enemyFlyingAlt_2.png" id="2_57hvb"]
+[ext_resource type="Texture2D" uid="uid://bxgft0vpx7nkm" path="res://art/enemySwimming_1.png" id="3_u4olg"]
+[ext_resource type="Texture2D" uid="uid://5vn6i75nh570" path="res://art/enemySwimming_2.png" id="4_qmj26"]
+[ext_resource type="Texture2D" uid="uid://dq8sxoscwmnwv" path="res://art/enemyWalking_1.png" id="5_gjnx2"]
+[ext_resource type="Texture2D" uid="uid://b66xdetmfy26p" path="res://art/enemyWalking_2.png" id="6_n3icw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fkpyq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_q3ko3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_57hvb")
+}],
+"loop": true,
+"name": &"fly",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_u4olg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_qmj26")
+}],
+"loop": true,
+"name": &"swim",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_gjnx2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_n3icw")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n2blt"]
+radius = 21.0
+height = 44.0
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_73rfu"]
+polygon = PackedVector2Array(0, -21, -8, -12, -8, 14, -3, 20, 9, 22, 22, 14, 25, 3, 25, -5, 22, -10, 18, -15, 14, -19, 9, -20, 5, -21)
+
+[node name="Mob" type="RigidBody2D"]
+collision_mask = 0
+gravity_scale = 0.0
+script = ExtResource("1_vx3ol")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_fkpyq")
+animation = &"fly"
+frame_progress = 0.21793
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(8, 0)
+shape = SubResource("CapsuleShape2D_n2blt")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Despawn" type="Timer" parent="."]
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_73rfu")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="Despawn" to="." method="_on_despawn_timeout"]
